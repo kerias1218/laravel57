@@ -27,4 +27,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function articles() {
+        return $this->hasMany(Article::class, 'user_id');  // 이것은(User) 여러개의 article 을 가지고 있습니다.
+    }
 }
