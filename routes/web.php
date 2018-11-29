@@ -12,9 +12,13 @@
 */
 
 
+/*
 Route::get('/', function () {
     $items = ['aa','bb','cc'];
     return view('welcome',['items'=>$items]);
 });
+*/
 
+Route::get('/', 'WelcomeController@index');
+Route::resource('/articles', 'ArticlesController');
 
