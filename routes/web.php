@@ -11,6 +11,10 @@
 |
 */
 
+
 Route::get('/', function () {
-    return view('welcome');
+    $items = ['aa','bb','cc'];
+    return view('welcome',['items'=>$items]);
 });
+
+
