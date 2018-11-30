@@ -49,6 +49,8 @@ class ArticlesController extends Controller
                 ->withInput();
         }
 
+        event(new \App\Events\ArticleCreated($article));
+
         return redirect(route('articles.index'))->with('flash_message','글이 저장되었습니다.');
     }
 
