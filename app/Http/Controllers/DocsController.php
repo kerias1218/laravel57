@@ -10,9 +10,16 @@ class DocsController extends Controller
     }
 
     public function show($file = null) {
-        $index = markdown($this->docs->get());
 
-        $content = markdown($this->docs->get($file?:'installation.md'));
+        $index = \Cache::remember('docs.index',120, function() {
+            dd('reached');
+            return markdown($this->docs->get());
+        });
+
+        $content = \Cache::remember("docs.{$file}", 120, function() use ($file){
+            dd('reached');
+            return markdown($this->docs->get($file?:'installation.md'));
+        });
 
         return view('docs.show', compact('index','content'));
     }
