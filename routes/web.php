@@ -37,6 +37,27 @@ Route::get('mail', function() {
     );
 });
 
+Route::get('markdown', function(){
+    $text = <<<Eot
+
+    Welcome to the demo of Parsedown Extra [^1]:
+
+1. Write Markdown text on the left
+2. Hit the __Parse__ button or `⌘ + Enter`
+3. See the result to on the right
+
+This is an interactive demo of
+
+[^1]: [Parsedown Extra](https://github.com/erusev/parsedown-extra) is an extension of [Parsedown](/) that adds support for [Markdown Extra](https://michelf.ca/projects/php-markdown/extra/).
+Eot;
+
+    return app(ParsedownExtra::class)->text($text);
+
+});
+
+
+
+
 
 
 Route::get('auth/login', function(){
