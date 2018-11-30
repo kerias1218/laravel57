@@ -19,7 +19,7 @@ class UserTableSeeder extends Seeder
         ]);
         */
 
-        factory(App\User::class,2)->create();
+        factory(App\User::class,5)->create();
 
     }
 }

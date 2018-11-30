@@ -11,16 +11,20 @@
 |
 */
 
+function queryShow() {
+    DB::listen(function($query){
+        dump($query->sql);
+    });
 
-/*
-Route::get('/', function () {
-    $items = ['aa','bb','cc'];
-    return view('welcome',['items'=>$items]);
-});
-*/
+}
+
 
 Route::get('/', 'WelcomeController@index');
 Route::resource('/articles', 'ArticlesController');
+
+queryShow();
+
+
 
 Route::get('auth/login', function(){
     $credentials = [
