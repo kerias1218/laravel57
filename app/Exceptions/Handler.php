@@ -56,7 +56,7 @@ class Handler extends ExceptionHandler
             }
         }
 
-        if( app()->environment('local')) {
+        if( app()->environment('production')) {
 
             $statusCode = 400;
             $title = '죄송합니다. :(';
