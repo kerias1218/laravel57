@@ -41,6 +41,11 @@ return [
 
     'debug' => env('APP_DEBUG', false),
 
+    'debug_blacklist' => [
+        '_SERVER' => array_keys($_ENV),
+        '_ENV' => array_keys($_ENV),
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application URL
