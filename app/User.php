@@ -18,16 +18,16 @@ class User extends Authenticatable
 
     protected $dates = ['last_login'];
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'confirm_code', 'activated',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token','confirm_code',
+    ];
+
+    // 모델에서 프로퍼티의 값을 조회할때 자동으로 타입변환할 목록 정의
+    protected $casts = [
+        'activated' => 'boolean',
     ];
 
     public function articles() {

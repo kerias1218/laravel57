@@ -11,8 +11,12 @@
 |
 */
 
+$arr = [];
+$arr['aa'] = 'bbb';
 
-Route::get('/home', [
+Route::get('/',[
     'as' => 'home',
-    'uses' => 'HomeController@index',
+    function() use ($arr){
+        return view('welcome')->with('arr',$arr);
+    }
 ]);

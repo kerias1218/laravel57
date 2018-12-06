@@ -20,12 +20,12 @@
     <div id="app-layout">
 
         @include('layouts.partial.navigation')
-
+        <hr/>
         <div class="container">
             @include('flash::message')
             @yield('content')
         </div>
-
+        <hr/>
         @include('layouts.partial.footer')
     </div>
 </body>
