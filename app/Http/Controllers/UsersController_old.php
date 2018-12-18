@@ -10,7 +10,7 @@ class UsersController extends Controller
 
     public function __construct()
     {
-        $this->middleware('guest');
+        //$this->middleware('guest');
     }
 
     public function join() {
@@ -21,11 +21,7 @@ class UsersController extends Controller
         return view('users.login');
     }
 
-    public function create() {
-        return view('users.create');
-    }
-
-    public function createOld(Request $request) {
+    public function create(Request $request) {
         $rules = [
             'pu_email' => ['required','email','max:50'],
             'pu_keyword' => ['required','max:50'],
@@ -43,92 +39,6 @@ class UsersController extends Controller
 
         return redirect('/');
     }
-
-
-    public function store(Request $request) {
-        //$socialUser = \App\User::whereEmail($request->input('email'))->whereNull('password')->first();
-
-        if($socialUser = \App\User::socialUser($request->get('email'))) return $this->updateSocialAccount($request, $socialUser);
-    }
-
-    protected function updateSocialAccount(Request $request, \App\User $user) {
-        $this->validate($request, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255',
-            'password' => 'required|confirmed|min:6',
-        ]);
-
-        $user->update([
-            'name' => $request->input('name'),
-            'password' => bcrypt($request->input('password')),
-        ]);
-
-        auth()->login($user);
-        return $this->respondCreated($user->name.' 님 환영합니다.');
-    }
-
-    public function store_old2(Request $request) {
-
-        $this->validate($request, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6',
-        ]);
-
-        $confirmCode = str_random(60);
-
-        $user = \App\User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
-            'confirm_code' => $confirmCode,
-        ]);
-
-        \Mail::send(
-            'emails.auth.confirm',
-            compact('user'),
-            function($message) use ($user) {
-                $message->to($user->email);
-                $message->subject(' [%s] 회원 가입 확인 '. config('app.name'));
-            }
-        );
-
-        flash('가입하신 메일 계정으로 발송 확인부탁');
-        /*
-        auth()->login($user);
-        flash(auth()->user()->name.' 님 환영합니다.');
-        */
-        return redirect('/');
-    }
-
-    public function confirm($code) {
-
-
-        $user = \App\User::whereConfirmCode($code)->first();
-
-        if(! $user) {
-            echo "URL 이 정확하지 않습니다.";
-            exit;
-            //flash('URL 이 정확하지 않습니다.');
-            //return redirect('home');
-        }
-
-        $user->activated = 1;
-        $user->confirm_code = null;
-        $user->save();
-
-        auth()->login($user);
-
-        return $this->respondCreated(auth()->user()->name. ' 님 환영합니다. 가입확인 되었습니다.');
-    }
-
-    protected function respondCreated($message) {
-        echo $message;
-        //return redirect('/home');
-    }
-
-
-
 
     public function priceCron() {
         $priceUsers = \App\PriceUser::all();

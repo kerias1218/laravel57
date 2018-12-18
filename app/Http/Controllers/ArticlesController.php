@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Mail;
 
 class ArticlesController extends Controller
 {
@@ -13,7 +14,9 @@ class ArticlesController extends Controller
      */
     public function index()
     {
-        return __METHOD__ .' ArticlesController 의 index';
+        //$articles = \App\Article::with('user')->get();
+        $articles = \App\Article::with('user')->latest()->paginate(3);
+        return view('articles.index', compact('articles'));
     }
 
     /**
@@ -23,7 +26,8 @@ class ArticlesController extends Controller
      */
     public function create()
     {
-        return __METHOD__ .' ArticlesController 의 create';
+        //return __METHOD__ .' create';
+        return view('articles.create');
     }
 
     /**
@@ -32,9 +36,49 @@ class ArticlesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+
+    public function store(\App\Http\Requests\ArticlesRequest $request) {
+
+        $article =\App\User::find(1)->articles()->create($request->all());
+
+        if(!$article) {
+            return back()->with('flash_message','글이 저장되지 않았습니다.')
+                ->withInput();
+        }
+
+
+
+        event(new \App\Events\ArticlesEvent($article));
+
+        return redirect(route('articles.index'))->with('flash_message','저장되었습니다.');
+    }
+
+    public function storeOld(Request $request)
     {
-        //
+        $rules = [
+            'title'=>['required'],
+            'content'=>['required','min:10'],
+        ];
+
+        $messages = [
+            'title.required' => '제목은 필수 입력 항목',
+            'content.required' => '본문은 필수 입력 항목',
+            'content.min' => '본문은 최소 :min 글자 이상 필요',
+        ];
+
+
+        $this->validate($request, $rules, $messages);
+
+        $article = \App\User::find(1)->articles()
+            ->create($request->all());
+
+        if(! $article) {
+            return back()->with('flash_message','글이 저장되지 않았습니다.')
+                ->withInput();
+        }
+
+        return redirect(route('articles.index'))
+            ->with('flash_message','글이 저장되었습니다.');
     }
 
     /**
@@ -45,7 +89,7 @@ class ArticlesController extends Controller
      */
     public function show($id)
     {
-        return __METHOD__ .' ArticlesController 의 show : '.$id;
+        return __METHOD__ .' show '.$id;
     }
 
     /**
@@ -56,7 +100,7 @@ class ArticlesController extends Controller
      */
     public function edit($id)
     {
-        //
+        return __METHOD__ .' edit '.$id;
     }
 
     /**
@@ -68,7 +112,7 @@ class ArticlesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return __METHOD__ .' ArticlesController 의 update : '.$id;
+        return __METHOD__ .' update '.$id;
     }
 
     /**
@@ -79,6 +123,6 @@ class ArticlesController extends Controller
      */
     public function destroy($id)
     {
-        return __METHOD__ .' ArticlesController 의 destroy : '.$id;
+        return __METHOD__ .' destory '.$id;
     }
 }

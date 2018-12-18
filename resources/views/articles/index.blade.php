@@ -7,7 +7,7 @@
         <ul>
             @forelse($articles as $article)
                 <li>
-                    [{{ $article->id }}] {{ $article->title }}
+                   {{ $article->title }}
                     <small>
                         by {{ $article->user->name }}
                     </small>
@@ -18,6 +18,7 @@
         </ul>
     </div>
 
+
     @if($articles->count())
         <div class="text-center">
             {{ $articles->render() }}
@@ -25,3 +26,4 @@
     @endif
 
 @stop
+

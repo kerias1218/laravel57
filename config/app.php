@@ -181,6 +181,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
     ],
 
     /*
@@ -231,6 +232,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Image' => Intervention\Image\Facsdes\Image::class,
         'Flash' => Laracasts\Flash\Flash::class,
+        'Socialite' => 'Laravel\Socialite\Facades\Socialite::class',
     ],
 
 ];

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddNameToAuthorsTable extends Migration
+class AddLastLoginColumnOnUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddNameToAuthorsTable extends Migration
      */
     public function up()
     {
-        Schema::table('authors', function (Blueprint $table) {
-            $table->string('name')->after('id')->nullable();
+        Schema::table('users', function (Blueprint $table) {
+            $table->timestamp('last_login')->after('remember_token')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddNameToAuthorsTable extends Migration
      */
     public function down()
     {
-        Schema::table('authors', function (Blueprint $table) {
-            $table->dropColumn('name');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('last_login');
         });
     }
 }

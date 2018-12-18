@@ -4,15 +4,21 @@
         <div class="navbar-header">
 
             <!-- Collapsed Hamburger -->
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" id="btnLogin">
                 <span class="sr-only">Toggle Navigation</span>
                 <span class="icon-bar">로그인</span>
             </button>
 
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" id="btnJoin">
                 <span class="sr-only">Toggle Navigation</span>
                 <span class="icon-bar">회원가입</span>
             </button>
+
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" id="btnLogout">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar">로그아웃</span>
+            </button>
+
 
 
             <!-- Branding Image -->
@@ -76,3 +82,18 @@
 
     </div>
 </nav>
+
+
+
+<script>
+    $("#btnJoin").click(function() {
+        location.href='/auth/register';
+    });
+    $("#btnLogin").click(function() {
+        location.href='/auth/login';
+    });
+    $("#btnLogout").click(function() {
+        location.href='/auth/logout';
+    });
+
+</script>

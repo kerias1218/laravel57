@@ -15,18 +15,37 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <script
+            src="https://code.jquery.com/jquery-1.12.4.min.js"
+            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+            crossorigin="anonymous"></script>
+
 </head>
 <body>
-    <div id="app-layout">
+<div id="app-layout">
 
-        @include('layouts.partial.navigation')
-        <hr/>
-        <div class="container">
-            @include('flash::message')
-            @yield('content')
-        </div>
-        <hr/>
-        @include('layouts.partial.footer')
+    @include('layouts.partial.navigation')
+    <hr/>
+    <div class="container">
+        @include('flash::message')
+
+        {{--
+        @if(session()->has('flash_message'))
+            <div class="alert alert-info" role="alert">
+                {{ session('flash_message') }}
+            </div>
+        @endif
+        --}}
+
+        @yield('content')
     </div>
+    <hr/>
+    @include('layouts.partial.footer')
+</div>
+
+
+@yield('scripts')
 </body>
 </html>
+

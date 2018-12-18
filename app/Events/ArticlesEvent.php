@@ -10,23 +10,23 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class ArticlesEvent extends Event
+class ArticlesEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
     public $article;
     public $action;
-
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(\App\Article $article, $action='created')
+
+    public function __construct(\App\Article $article, $action = 'created')
     {
         $this->article = $article;
         $this->action = $action;
-
     }
 
     /**

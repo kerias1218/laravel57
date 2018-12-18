@@ -1,10 +1,6 @@
 @extends('layouts.app')
 
-
-
     @section('content')
-        <p>자식뷰의 content 섹션</p>
-
-        @include('partials.footer')
+        <p>users.welcome 블레이드 </p>
     @endsection
 

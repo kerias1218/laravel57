@@ -2,8 +2,7 @@
 
 namespace App\Listeners;
 
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Mail;
 
 class ArticlesEventListener
 {
@@ -23,14 +22,22 @@ class ArticlesEventListener
      * @param  article.created  $event
      * @return void
      */
-    public function handle(\App\Events\ArticleCreated $event)
+
+    public function handle(\App\Events\ArticlesEvent $event)
     {
         if($event->action === 'created') {
-            \Log::info(sprintf(
-                '새로운 포럼글이 등록: %s',
-                $event->article->title
-            ));
-        }
+            \Log::info(sprintf('새로운 글 등록: %s',$event->article->title));
 
+            $article = $event->article;
+
+            Mail::send(
+                'emails.articles.created',
+                compact('article'),
+                function($message) use ($article) {
+                    $message->to('kerias@naver.com');
+                    $message->subject('새글이 등록 '.$article->title);
+                }
+            );
+        }
     }
 }

@@ -6,13 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-    protected $table = 'test_articles';
+    public $table = 'articles';
     protected $fillable = ['title','content'];
 
+
     public function user() {
-        return $this->belongsTo(User::class, 'user_id');   // 이것은(Article) user 소속 입니다.
+        return $this->belongsTo(User::class);
     }
+
+
+    /*
     public function tags() {
-        return $this->belongsToMany(Tag::class, 'test_article_tag');
+        return $this->belongsToMany(Tag::class);
     }
+    */
 }
+
+
