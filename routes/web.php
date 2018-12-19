@@ -60,10 +60,10 @@ Route::get('social/{provider}',[
 
 
 
-/*
+
 Route::resource('articles','ArticlesController');
 
-
+/*
 Route::get('auth/login', function() {
     $credentials = [
         'email' => 'aa@aa.com',

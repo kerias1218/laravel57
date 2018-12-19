@@ -7,6 +7,11 @@ use Mail;
 
 class ArticlesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except'=>['index','show']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -26,8 +31,9 @@ class ArticlesController extends Controller
      */
     public function create()
     {
-        //return __METHOD__ .' create';
-        return view('articles.create');
+        $article = new \App\Article;
+
+        return view('articles.create', compact('article'));
     }
 
     /**
@@ -39,7 +45,8 @@ class ArticlesController extends Controller
 
     public function store(\App\Http\Requests\ArticlesRequest $request) {
 
-        $article =\App\User::find(1)->articles()->create($request->all());
+        //$article =\App\User::find(1)->articles()->create($request->all());
+        $article = $request->user()->articles()->create($request->all());
 
         if(!$article) {
             return back()->with('flash_message','글이 저장되지 않았습니다.')
@@ -87,9 +94,10 @@ class ArticlesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(\App\Article $article)
     {
-        return __METHOD__ .' show '.$id;
+        //return __METHOD__ .' show '.$id;
+        return view('articles.show', compact('article'));
     }
 
     /**
@@ -98,9 +106,10 @@ class ArticlesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(\app\Article $article)
     {
-        return __METHOD__ .' edit '.$id;
+        $this->authorize('update', $article);
+        return view('articles.edit', compact('article'));
     }
 
     /**
@@ -110,9 +119,16 @@ class ArticlesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(\App\Http\Requests\ArticlesRequest $request, \App\Article $article)
     {
-        return __METHOD__ .' update '.$id;
+        //return __METHOD__ .' update '.$id;
+        $article->update($request->all());
+        //아래 오류 발생
+        //flash()->sucess('수정하신 내용을 저장 완료');
+
+
+        return redirect(route('articles.show', $article->id))
+            ->with('flash_message','수정하신 내용 저장 완료');
     }
 
     /**
@@ -121,8 +137,10 @@ class ArticlesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(\App\Article $article)
     {
-        return __METHOD__ .' destory '.$id;
+        $this->authorize('delete', $article);
+        $article->delete();
+        return response()->json([],204);
     }
 }

@@ -19,6 +19,8 @@
                 <span class="icon-bar">로그아웃</span>
             </button>
 
+            <a href="{{ route('articles.index') }}" class="btn btn-primary">포럼</a>
+
 
 
             <!-- Branding Image -->
